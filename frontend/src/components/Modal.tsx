@@ -11,6 +11,7 @@ interface IModal {
 
 const Modal = ({ user, closeModal }: IModal) => {
   const [edit, setEdit] = useState<boolean>(false);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<IUser>({
     _id: user._id,
     firstname: user.firstname,
@@ -33,6 +34,16 @@ const Modal = ({ user, closeModal }: IModal) => {
       ...prevObject,
       [name]: value,
     }));
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(API_ENUMS.BASE_URL + `/user/${id}`).then((res) => {
+        console.log(res);
+      });
+    } catch (error) {
+      throw error;
+    }
   };
 
   const updateUser = async (id: string) => {
@@ -115,8 +126,24 @@ const Modal = ({ user, closeModal }: IModal) => {
               color="bg-red-500"
               hoverColor="bg-red-600"
               title="löschen"
-              clickFunction={() => closeModal()}
+              clickFunction={() => setConfirmDelete(true)}
             />
+            {confirmDelete && (
+              <>
+                <Button
+                  color="bg-red-500"
+                  hoverColor="bg-red-600"
+                  title="wirklich löschen"
+                  clickFunction={() => handleDelete(user._id)}
+                />
+                <Button
+                  color="bg-gray-500"
+                  hoverColor="bg-gray-600"
+                  title="abbrechen"
+                  clickFunction={() => setConfirmDelete(false)}
+                />
+              </>
+            )}
             <Button
               color="bg-amber-500"
               hoverColor="bg-amber-600"
