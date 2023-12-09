@@ -12,6 +12,7 @@ interface IModal {
 const Modal = ({ user, closeModal }: IModal) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
+  const [userIsDeleted, setUserIsDeleted] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<IUser>({
     _id: user._id,
     firstname: user.firstname,
@@ -39,7 +40,7 @@ const Modal = ({ user, closeModal }: IModal) => {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(API_ENUMS.BASE_URL + `/user/${id}`).then((res) => {
-        console.log(res);
+        setUserIsDeleted(true);
       });
     } catch (error) {
       throw error;
@@ -63,50 +64,58 @@ const Modal = ({ user, closeModal }: IModal) => {
       <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
         <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/2 h-1/4">
           {edit ? (
-            <table>
-              <tbody>
-                <tr>
-                  <td className="text-left pr-5">
-                    <input
-                      className="bg-gray-300 p-2 rounded"
-                      type="text"
-                      value={`${editUser.firstname}`}
-                      name="firstname"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </td>
-                  <td className="text-left pr-5">
-                    <input
-                      className="bg-gray-300 p-2 rounded"
-                      type="text"
-                      value={`${editUser.lastname}`}
-                      name="lastname"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-left pr-5">
-                    <input
-                      className="bg-gray-300 p-2 rounded"
-                      type="text"
-                      value={`${editUser.age}`}
-                      name="age"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </td>
-                  <td className="text-left pr-5">
-                    <input
-                      className="bg-gray-300 p-2 rounded"
-                      type="text"
-                      value={`${editUser.eMail}`}
-                      name="eMail"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <>
+              {!userIsDeleted ? (
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className="text-left pr-5">
+                        <input
+                          className="bg-gray-300 p-2 rounded"
+                          type="text"
+                          value={`${editUser.firstname}`}
+                          name="firstname"
+                          onChange={(e) => handleInputChange(e)}
+                        />
+                      </td>
+                      <td className="text-left pr-5">
+                        <input
+                          className="bg-gray-300 p-2 rounded"
+                          type="text"
+                          value={`${editUser.lastname}`}
+                          name="lastname"
+                          onChange={(e) => handleInputChange(e)}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-left pr-5">
+                        <input
+                          className="bg-gray-300 p-2 rounded"
+                          type="text"
+                          value={`${editUser.age}`}
+                          name="age"
+                          onChange={(e) => handleInputChange(e)}
+                        />
+                      </td>
+                      <td className="text-left pr-5">
+                        <input
+                          className="bg-gray-300 p-2 rounded"
+                          type="text"
+                          value={`${editUser.eMail}`}
+                          name="eMail"
+                          onChange={(e) => handleInputChange(e)}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              ) : (
+                <p>
+                  {user.firstname} {user.lastname} wurde erfolgreich gelöscht
+                </p>
+              )}
+            </>
           ) : (
             <table>
               <tbody>
