@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 const PORT = 3000;
 
+app.use(cors({ origin: "*", methods: ["GET", "POST", "DELETE", "PUT"] }));
+
 app.use("/api/v1/user/", v1UserRoute);
 
 mongoose
