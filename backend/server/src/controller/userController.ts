@@ -21,10 +21,15 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
-const deleteUser = () => {
+const deleteUser = async (req: Request, res: Response) => {
   try {
+    const userId = req.params.userId; // Adjust the property name based on your route configuration
+    await User.deleteOne({ _id: userId });
+
+    res.status(200).send("User successfully deleted");
   } catch (error) {
-    throw error;
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -35,4 +40,4 @@ const updateUser = () => {
   }
 };
 
-export default { getAllUser, createUser };
+export default { getAllUser, createUser, deleteUser };
