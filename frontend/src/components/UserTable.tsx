@@ -1,25 +1,13 @@
-import { useEffect, useState } from "react";
-import { User } from "../UserInterface";
+import { IUser } from "../UserInterface";
 import axios from "axios";
-import { API_ENUMS } from "../API_ENUMS";
 
-const UserTable = () => {
+interface IUserTable {
+  userList: IUser[];
+  handleTableClick: (user: IUser) => void;
+}
+
+const UserTable = ({ userList, handleTableClick }: IUserTable) => {
   const tableHeader = ["Vorname", "Nachname", "Alter", "E-Mail"];
-  const [userList, setUserList] = useState<User[]>([]);
-
-  useEffect(() => {
-    const getAllUser = async () => {
-      await axios
-        .get(API_ENUMS.BASE_URL + "user")
-        .then((res) => {
-          setUserList(res.data);
-          console.log(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-
-    getAllUser();
-  }, []);
 
   return (
     <table className="border-2 border-emerald-500">
@@ -39,6 +27,7 @@ const UserTable = () => {
             className={`${
               index % 2 === 0 && "bg-gray-200"
             } hover:bg-emerald-200 hover:border-2 hover:border-emerald-500 hover:cursor-pointer`}
+            onClick={() => handleTableClick(user)}
           >
             <td className="p-5 text-left">{user.firstname}</td>
             <td className="p-5 text-left">{user.lastname}</td>
