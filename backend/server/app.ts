@@ -15,7 +15,7 @@ app.use("/api/v1/user/", v1UserRoute);
 
 mongoose
   .connect(
-    "mongodb+srv://philip_faerber:Test_1234@cluster0.kw55p1b.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://philip_faerber:Test_1234@cluster0.kw55p1b.mongodb.net/userlist-challenge?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(PORT, () => {

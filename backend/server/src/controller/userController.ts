@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
+import User from "../../userSchema";
 
 const getAllUser = () => {
   try {
@@ -8,10 +10,11 @@ const getAllUser = () => {
   }
 };
 
-const createUser = (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
   try {
-    // do something
-    res.status(200).send("user created");
+    const newUser = new User(req.body);
+    await newUser.save();
+    res.status(200).send(newUser);
   } catch (error) {
     throw error;
   }
