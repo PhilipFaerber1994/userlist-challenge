@@ -33,11 +33,17 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateUser = () => {
+const updateUser = async (req: Request, res: Response) => {
   try {
+    const userId = req.params.userId;
+    const user = req.body;
+    const result = await User.findOneAndUpdate({ _id: userId }, user, {
+      new: true,
+    });
+    res.status(200).send(result);
   } catch (error) {
     throw error;
   }
 };
 
-export default { getAllUser, createUser, deleteUser };
+export default { getAllUser, createUser, deleteUser, updateUser };
