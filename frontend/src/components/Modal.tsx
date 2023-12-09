@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IUser } from "../UserInterface";
 import Button from "./Button";
+import axios from "axios";
+import { API_ENUMS } from "../API_ENUMS";
 
 interface IModal {
   user: IUser;
@@ -9,9 +11,40 @@ interface IModal {
 
 const Modal = ({ user, closeModal }: IModal) => {
   const [edit, setEdit] = useState<boolean>(false);
+  const [editUser, setEditUser] = useState<IUser>({
+    _id: user._id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    age: user.age,
+    eMail: user.eMail,
+  });
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   const changeToEditMode = () => {
     setEdit(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditUser((prevObject) => ({
+      ...prevObject,
+      [name]: value,
+    }));
+  };
+
+  const updateUser = async (id: string) => {
+    try {
+      await axios
+        .put(API_ENUMS.BASE_URL + `/user/${id}`, editUser)
+        .then((res) => {
+          console.log(res);
+        });
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
@@ -26,14 +59,18 @@ const Modal = ({ user, closeModal }: IModal) => {
                     <input
                       className="bg-gray-300 p-2 rounded"
                       type="text"
-                      value={`${user.firstname}`}
+                      value={`${editUser.firstname}`}
+                      name="firstname"
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </td>
                   <td className="text-left pr-5">
                     <input
                       className="bg-gray-300 p-2 rounded"
                       type="text"
-                      value={`${user.lastname}`}
+                      value={`${editUser.lastname}`}
+                      name="lastname"
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </td>
                 </tr>
@@ -42,14 +79,18 @@ const Modal = ({ user, closeModal }: IModal) => {
                     <input
                       className="bg-gray-300 p-2 rounded"
                       type="text"
-                      value={`${user.age.toString()}`}
+                      value={`${editUser.age}`}
+                      name="age"
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </td>
                   <td className="text-left pr-5">
                     <input
                       className="bg-gray-300 p-2 rounded"
                       type="text"
-                      value={`${user.eMail}`}
+                      value={`${editUser.eMail}`}
+                      name="eMail"
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </td>
                 </tr>
@@ -88,6 +129,12 @@ const Modal = ({ user, closeModal }: IModal) => {
                 hoverColor="bg-gray-600"
                 title="schließen"
                 clickFunction={() => closeModal()}
+              />
+              <Button
+                color="bg-emerald-500"
+                hoverColor="bg-emerald-600"
+                title="speichern"
+                clickFunction={() => updateUser(user._id)}
               />
             </div>
           </div>

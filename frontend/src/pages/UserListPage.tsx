@@ -13,7 +13,7 @@ const UserListPage = () => {
   useEffect(() => {
     const getAllUser = async () => {
       await axios
-        .get(API_ENUMS.BASE_URL + "user")
+        .get(API_ENUMS.BASE_URL + "/user")
         .then((res) => {
           setUserList(res.data);
         })
