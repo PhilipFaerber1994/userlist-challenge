@@ -10,21 +10,6 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
-const findEmail = async (req: Request, res: Response) => {
-  try {
-    const eMail = req.params.eMail;
-    const user = await User.findOne({ eMail });
-
-    if (user?.eMail) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newUser = new User(req.body);
@@ -81,7 +66,6 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 export default {
   getAllUser,
-  findEmail,
   createUser,
   deleteUser,
   updateUser,
