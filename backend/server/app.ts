@@ -10,9 +10,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(bodyParser.json());
+const PORT = process.env.PORT;
 
-const PORT = 3000;
+app.use(bodyParser.json());
 
 app.use(cors({ origin: "*", methods: ["GET", "POST", "DELETE", "PUT"] }));
 
