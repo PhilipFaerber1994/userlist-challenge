@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import mongoose from "mongoose";
+import { NextFunction, Request, Response } from "express";
 import User from "../../userSchema";
 
 const getAllUser = async (req: Request, res: Response) => {
@@ -11,13 +10,47 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
-const createUser = async (req: Request, res: Response) => {
+const findEmail = async (req: Request, res: Response) => {
   try {
-    const newUser = new User(req.body);
-    await newUser.save();
-    res.status(200).send("User successfully created");
+    const eMail = req.params.eMail;
+    const user = await User.findOne({ eMail });
+
+    if (user?.eMail) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     throw error;
+  }
+};
+
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const newUser = new User(req.body);
+
+    let existingUser;
+    try {
+      existingUser = await User.findOne({ eMail: newUser.eMail });
+    } catch (error) {
+      const err = new Error("Error checking existing email");
+      return next(err);
+    }
+
+    if (existingUser) {
+      return res.status(400).send("E-Mail existiert bereits");
+    }
+
+    try {
+      await newUser.save();
+      res.status(200).send("User successfully created");
+    } catch (error) {
+      const err = new Error("Error saving user");
+      return next(err);
+    }
+  } catch (error) {
+    // Handle any other errors that may occur
+    return next(error);
   }
 };
 
@@ -33,10 +66,23 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  let userId = req.params.userId;
+  let user = req.body;
+  let existingUser;
   try {
-    const userId = req.params.userId;
-    const user = req.body;
+    existingUser = await User.findOne({ eMail: user.eMail });
+  } catch (error) {
+    const err = new Error("Error checking existing email");
+    return next(err);
+  }
+
+  if (existingUser) {
+    return res.status(400).send("E-Mail existiert bereits");
+  }
+  try {
+    userId = req.params.userId;
+    user = req.body;
     const result = await User.findOneAndUpdate({ _id: userId }, user, {
       new: true,
     });
@@ -46,4 +92,10 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export default { getAllUser, createUser, deleteUser, updateUser };
+export default {
+  getAllUser,
+  findEmail,
+  createUser,
+  deleteUser,
+  updateUser,
+};
