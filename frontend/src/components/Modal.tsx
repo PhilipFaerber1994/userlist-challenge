@@ -3,6 +3,8 @@ import { IUser } from "../UserInterface";
 import Button from "./Button";
 import axios from "axios";
 import { API_ENUMS } from "../API_ENUMS";
+import { useFormik } from "formik";
+import { validationSchema } from "../validationSchema";
 
 interface IModal {
   user: IUser;
@@ -29,12 +31,29 @@ const Modal = ({
     eMail: user.eMail,
   });
 
-  useEffect(() => {
-    console.log("edit", edit + " | confirmDelete", confirmDelete);
-  }, []);
+  const { values, errors, touched, handleChange, handleSubmit, resetForm } =
+    useFormik({
+      initialValues: {
+        firstname: String(user.firstname),
+        lastname: String(user.lastname),
+        age: String(user.age),
+        eMail: String(user.eMail),
+      },
+      validationSchema: validationSchema,
+      onSubmit: async (values, { setSubmitting }) => {
+        try {
+          await updateUser(user._id);
+        } catch (error) {
+          // Handle the error if needed
+        } finally {
+          setSubmitting(false);
+        }
+      },
+    });
 
   const changeToEditMode = () => {
     setEdit(true);
+    console.log("edit mode" + edit);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,8 +69,6 @@ const Modal = ({
       await axios.delete(API_ENUMS.BASE_URL + `/user/${id}`).then((res) => {
         removeUserFromList(id);
         setUserIsDeleted(true);
-        console.log("After deleting");
-        console.log("edit", edit + " | userIsDeleted", userIsDeleted);
       });
     } catch (error) {
       throw error;
@@ -61,7 +78,7 @@ const Modal = ({
   const updateUser = async (id: string) => {
     try {
       await axios
-        .put(API_ENUMS.BASE_URL + `/user/${id}`, editUser)
+        .put(API_ENUMS.BASE_URL + `/user/${id}`, values)
         .then((res) => {
           console.log(res);
           updateUserInList(res.data);
@@ -77,53 +94,95 @@ const Modal = ({
   return (
     <>
       <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-        <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/3 h-1/3">
+        <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/3 h-1/2">
           {edit ? (
             <>
-              <table>
-                <tbody>
-                  <tr>
-                    <td className="text-left pr-5">
-                      <input
-                        className="bg-gray-300 p-2 rounded"
-                        type="text"
-                        value={`${editUser.firstname}`}
-                        name="firstname"
-                        onChange={(e) => handleInputChange(e)}
-                      />
-                    </td>
-                    <td className="text-left pr-5">
-                      <input
-                        className="bg-gray-300 p-2 rounded"
-                        type="text"
-                        value={`${editUser.lastname}`}
-                        name="lastname"
-                        onChange={(e) => handleInputChange(e)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-left pr-5">
-                      <input
-                        className="bg-gray-300 p-2 rounded"
-                        type="text"
-                        value={`${editUser.age}`}
-                        name="age"
-                        onChange={(e) => handleInputChange(e)}
-                      />
-                    </td>
-                    <td className="text-left pr-5">
-                      <input
-                        className="bg-gray-300 p-2 rounded"
-                        type="text"
-                        value={`${editUser.eMail}`}
-                        name="eMail"
-                        onChange={(e) => handleInputChange(e)}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <form
+                className="flex flex-col"
+                onSubmit={(id) => handleSubmit(id)}
+              >
+                <div className="flex flex-row m-5 ">
+                  <input
+                    className="bg-gray-300 p-2 rounded mx-1"
+                    id="firstname"
+                    type="text"
+                    value={values.firstname}
+                    name="firstname"
+                    onChange={handleChange}
+                  />
+                  {errors.firstname && touched.firstname && (
+                    <p className="text-red-500">{errors.firstname}</p>
+                  )}
+                  <input
+                    className="bg-gray-300 p-2 rounded mx-1"
+                    type="text"
+                    value={values.lastname}
+                    name="lastname"
+                    onChange={handleChange}
+                  />
+                  {errors.lastname && touched.lastname && (
+                    <p className="text-red-500">{errors.lastname}</p>
+                  )}
+                </div>
+                <div className="flex flex-row m-5 ">
+                  <input
+                    className="bg-gray-300 p-2 rounded mx-1"
+                    type="text"
+                    value={values.age}
+                    name="age"
+                    onChange={handleChange}
+                  />
+                  {errors.age && touched.age && (
+                    <p className="text-red-500">{errors.age}</p>
+                  )}
+                  <input
+                    className="bg-gray-300 p-2 rounded  mx-1"
+                    type="text"
+                    value={values.eMail}
+                    name="eMail"
+                    onChange={handleChange}
+                  />
+                  {errors.eMail && touched.eMail && (
+                    <p className="text-red-500">{errors.eMail}</p>
+                  )}
+                </div>
+                {/* Visible when user is supossed to be updated */}
+                {edit && (
+                  <div className="flex flex-row justify-center">
+                    <Button
+                      color="bg-emerald-500"
+                      hoverColor="bg-emerald-600"
+                      title="speichern"
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z"
+                          />
+                        </svg>
+                      }
+                      // clickFunction={() => updateUser(user._id)}
+                    />
+                    <Button
+                      color="bg-gray-500"
+                      hoverColor="bg-gray-600"
+                      title="abbrechen"
+                      clickFunction={() => {
+                        setConfirmDelete(false);
+                        setEdit(false);
+                      }}
+                    />
+                  </div>
+                )}
+              </form>
             </>
           ) : !userIsDeleted ? (
             <table>
@@ -199,32 +258,6 @@ const Modal = ({
                   clickFunction={() => closeModal()}
                 />
               </>
-            )}
-
-            {/* Visible when user is supossed to be updated */}
-            {edit && (
-              <div>
-                {mailExists && (
-                  <p className="text-red-500">E-Mail existiert bereits</p>
-                )}
-                <div>
-                  <Button
-                    color="bg-emerald-500"
-                    hoverColor="bg-emerald-600"
-                    title="speichern"
-                    clickFunction={() => updateUser(user._id)}
-                  />
-                  <Button
-                    color="bg-gray-500"
-                    hoverColor="bg-gray-600"
-                    title="abbrechen"
-                    clickFunction={() => {
-                      setConfirmDelete(false);
-                      setEdit(false);
-                    }}
-                  />
-                </div>
-              </div>
             )}
 
             {/* Visible when user is supossed to be deleted */}
