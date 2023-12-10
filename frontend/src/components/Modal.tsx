@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { IUser } from "../UserInterface";
 import Button from "./Button";
 import axios from "axios";
@@ -23,13 +23,6 @@ const Modal = ({
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [userIsDeleted, setUserIsDeleted] = useState<boolean>(false);
   const [mailExists, setMailsExists] = useState<boolean>(false);
-  const [editUser, setEditUser] = useState<IUser>({
-    _id: user._id,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    age: user.age,
-    eMail: user.eMail,
-  });
 
   const { values, errors, touched, handleChange, handleSubmit, resetForm } =
     useFormik({
@@ -54,14 +47,6 @@ const Modal = ({
   const changeToEditMode = () => {
     setEdit(true);
     console.log("edit mode" + edit);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditUser((prevObject) => ({
-      ...prevObject,
-      [name]: value,
-    }));
   };
 
   const handleDelete = async (id: string) => {
@@ -169,7 +154,6 @@ const Modal = ({
                           />
                         </svg>
                       }
-                      // clickFunction={() => updateUser(user._id)}
                     />
                     <Button
                       color="bg-gray-500"
@@ -187,13 +171,13 @@ const Modal = ({
           ) : !userIsDeleted ? (
             <table>
               <tbody>
-                <tr>
-                  <td className="text-left pr-5">{user.firstname}</td>
-                  <td className="text-left pr-5">{user.lastname}</td>
+                <tr className="mb-10">
+                  <td className="text-left w-4/6 pr-5">{user.firstname}</td>
+                  <td className="text-left w-4/6 pr-5">{user.lastname}</td>
                 </tr>
                 <tr>
-                  <td className="text-left pr-5">{String(user.age)}</td>
-                  <td className="text-left pr-5">{user.eMail}</td>
+                  <td className="text-left w-4/6 pr-5">{String(user.age)}</td>
+                  <td className="text-left w-4/6 pr-5">{user.eMail}</td>
                 </tr>
               </tbody>
             </table>
