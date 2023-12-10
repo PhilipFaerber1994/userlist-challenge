@@ -8,9 +8,15 @@ interface IModal {
   user: IUser;
   closeModal: () => void;
   updateUserInList: (updatedUser: IUser) => void;
+  removeUserFromList: (userId: string) => void;
 }
 
-const Modal = ({ user, closeModal, updateUserInList }: IModal) => {
+const Modal = ({
+  user,
+  closeModal,
+  updateUserInList,
+  removeUserFromList,
+}: IModal) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [userIsDeleted, setUserIsDeleted] = useState<boolean>(false);
@@ -41,7 +47,9 @@ const Modal = ({ user, closeModal, updateUserInList }: IModal) => {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(API_ENUMS.BASE_URL + `/user/${id}`).then((res) => {
+        removeUserFromList(id);
         setUserIsDeleted(true);
+        console.log(userIsDeleted);
       });
     } catch (error) {
       throw error;

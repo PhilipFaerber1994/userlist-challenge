@@ -39,6 +39,13 @@ const UserListPage = () => {
     setUserList(updatedList);
   };
 
+  const removeUserFromList = (userId: string) => {
+    // Remove the user with the specified userId from the userList state
+    setUserList((prevUserList) =>
+      prevUserList.filter((user) => user._id !== userId)
+    );
+  };
+
   const closeModal = () => setModalOpen(false);
 
   return (
@@ -49,6 +56,7 @@ const UserListPage = () => {
           user={selectedUser as IUser}
           closeModal={closeModal}
           updateUserInList={updateUserInList}
+          removeUserFromList={removeUserFromList}
         />
       )}
     </div>
