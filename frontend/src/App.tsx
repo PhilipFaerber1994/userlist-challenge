@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
@@ -7,6 +7,8 @@ import { CreateUserPage } from "./pages/CreateUserPage";
 import Navbar from "./components/Navbar";
 
 function App() {
+  useEffect(() => {}, []);
+
   return (
     <div className="App">
       <BrowserRouter>
