@@ -50,7 +50,10 @@ const UserListPage = () => {
   const closeModal = () => setModalOpen(false);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-2xl mt-10 mb-10 font-bold text-emerald-500">
+        Übersicht Benutzer
+      </h1>
       <UserTable userList={userList} handleTableClick={handleTableClick} />
       {modalOpen && (
         <Modal
