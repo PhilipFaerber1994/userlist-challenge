@@ -28,13 +28,28 @@ const UserListPage = () => {
     setModalOpen(true);
   };
 
+  const updateUserInList = (updatedUser: IUser) => {
+    const updatedIndex = userList.findIndex(
+      (user) => user._id === updatedUser._id
+    );
+
+    const updatedList = [...userList];
+    updatedList[updatedIndex] = updatedUser;
+
+    setUserList(updatedList);
+  };
+
   const closeModal = () => setModalOpen(false);
 
   return (
     <div className="flex justify-center">
       <UserTable userList={userList} handleTableClick={handleTableClick} />
       {modalOpen && (
-        <Modal user={selectedUser as IUser} closeModal={closeModal} />
+        <Modal
+          user={selectedUser as IUser}
+          closeModal={closeModal}
+          updateUserInList={updateUserInList}
+        />
       )}
     </div>
   );

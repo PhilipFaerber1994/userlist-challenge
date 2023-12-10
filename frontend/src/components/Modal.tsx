@@ -7,9 +7,10 @@ import { API_ENUMS } from "../API_ENUMS";
 interface IModal {
   user: IUser;
   closeModal: () => void;
+  updateUserInList: (updatedUser: IUser) => void;
 }
 
-const Modal = ({ user, closeModal }: IModal) => {
+const Modal = ({ user, closeModal, updateUserInList }: IModal) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [userIsDeleted, setUserIsDeleted] = useState<boolean>(false);
@@ -53,6 +54,7 @@ const Modal = ({ user, closeModal }: IModal) => {
         .put(API_ENUMS.BASE_URL + `/user/${id}`, editUser)
         .then((res) => {
           console.log(res);
+          updateUserInList(res.data);
         });
     } catch (error) {
       throw error;
