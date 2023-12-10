@@ -77,7 +77,7 @@ const Modal = ({
   return (
     <>
       <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-        <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/2 h-1/4">
+        <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/3 h-1/3">
           {edit ? (
             <>
               <table>
