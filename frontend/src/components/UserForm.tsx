@@ -95,7 +95,6 @@ const UserForm = () => {
           color="bg-emerald-500"
           hoverColor="bg-emerald-600"
           title="speichern"
-          clickFunction={handleSubmit}
         />
       </form>
     </div>
