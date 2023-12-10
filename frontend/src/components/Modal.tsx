@@ -20,6 +20,7 @@ const Modal = ({
   const [edit, setEdit] = useState<boolean>(false);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [userIsDeleted, setUserIsDeleted] = useState<boolean>(false);
+  const [mailExists, setMailsExists] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<IUser>({
     _id: user._id,
     firstname: user.firstname,
@@ -64,6 +65,9 @@ const Modal = ({
         .then((res) => {
           console.log(res);
           updateUserInList(res.data);
+        })
+        .catch((err) => {
+          setMailsExists(true);
         });
     } catch (error) {
       throw error;
@@ -167,23 +171,28 @@ const Modal = ({
 
             {/* Visible when user is supossed to be updated */}
             {edit && (
-              <>
-                <Button
-                  color="bg-emerald-500"
-                  hoverColor="bg-emerald-600"
-                  title="speichern"
-                  clickFunction={() => updateUser(user._id)}
-                />
-                <Button
-                  color="bg-gray-500"
-                  hoverColor="bg-gray-600"
-                  title="abbrechen"
-                  clickFunction={() => {
-                    setConfirmDelete(false);
-                    setEdit(false);
-                  }}
-                />
-              </>
+              <div>
+                {mailExists && (
+                  <p className="text-red-500">E-Mail existiert bereits</p>
+                )}
+                <div>
+                  <Button
+                    color="bg-emerald-500"
+                    hoverColor="bg-emerald-600"
+                    title="speichern"
+                    clickFunction={() => updateUser(user._id)}
+                  />
+                  <Button
+                    color="bg-gray-500"
+                    hoverColor="bg-gray-600"
+                    title="abbrechen"
+                    clickFunction={() => {
+                      setConfirmDelete(false);
+                      setEdit(false);
+                    }}
+                  />
+                </div>
+              </div>
             )}
 
             {/* Visible when user is supossed to be deleted */}
