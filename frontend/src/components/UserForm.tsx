@@ -7,21 +7,23 @@ import { useState } from "react";
 
 const UserForm = () => {
   const [userCreated, setUserCreated] = useState<boolean>(false);
-  const { values, errors, touched, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      firstname: "",
-      lastname: "",
-      age: 0,
-      eMail: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: () => createUser(),
-  });
+  const { values, errors, touched, handleChange, handleSubmit, resetForm } =
+    useFormik({
+      initialValues: {
+        firstname: "",
+        lastname: "",
+        age: 0,
+        eMail: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: () => createUser(),
+    });
 
   const createUser = async () => {
     try {
       await axios.post(API_ENUMS.BASE_URL + "/user/", values).then((res) => {
         setUserCreated(true);
+        resetForm();
       });
     } catch (error) {
       throw error;
