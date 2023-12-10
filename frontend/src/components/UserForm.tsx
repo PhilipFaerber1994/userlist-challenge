@@ -3,6 +3,7 @@ import { IUser } from "../UserInterface";
 import Button from "./Button";
 import axios from "axios";
 import { API_ENUMS } from "../API_ENUMS";
+import { validationSchema } from "../validationSchema";
 
 const UserForm = () => {
   const [editUser, setEditUser] = useState<IUser>({
