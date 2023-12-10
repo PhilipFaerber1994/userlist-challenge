@@ -49,7 +49,8 @@ const Modal = ({
       await axios.delete(API_ENUMS.BASE_URL + `/user/${id}`).then((res) => {
         removeUserFromList(id);
         setUserIsDeleted(true);
-        console.log(userIsDeleted);
+        console.log("After deleting");
+        console.log("edit", edit + " | userIsDeleted", userIsDeleted);
       });
     } catch (error) {
       throw error;
@@ -75,58 +76,52 @@ const Modal = ({
         <div className="flex flex-col items-center bg-white p-8 rounded shadow-md w-1/2 h-1/4">
           {edit ? (
             <>
-              {!userIsDeleted ? (
-                <table>
-                  <tbody>
-                    <tr>
-                      <td className="text-left pr-5">
-                        <input
-                          className="bg-gray-300 p-2 rounded"
-                          type="text"
-                          value={`${editUser.firstname}`}
-                          name="firstname"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </td>
-                      <td className="text-left pr-5">
-                        <input
-                          className="bg-gray-300 p-2 rounded"
-                          type="text"
-                          value={`${editUser.lastname}`}
-                          name="lastname"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-left pr-5">
-                        <input
-                          className="bg-gray-300 p-2 rounded"
-                          type="text"
-                          value={`${editUser.age}`}
-                          name="age"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </td>
-                      <td className="text-left pr-5">
-                        <input
-                          className="bg-gray-300 p-2 rounded"
-                          type="text"
-                          value={`${editUser.eMail}`}
-                          name="eMail"
-                          onChange={(e) => handleInputChange(e)}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              ) : (
-                <p>
-                  {user.firstname} {user.lastname} wurde erfolgreich gelöscht
-                </p>
-              )}
+              <table>
+                <tbody>
+                  <tr>
+                    <td className="text-left pr-5">
+                      <input
+                        className="bg-gray-300 p-2 rounded"
+                        type="text"
+                        value={`${editUser.firstname}`}
+                        name="firstname"
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                    </td>
+                    <td className="text-left pr-5">
+                      <input
+                        className="bg-gray-300 p-2 rounded"
+                        type="text"
+                        value={`${editUser.lastname}`}
+                        name="lastname"
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left pr-5">
+                      <input
+                        className="bg-gray-300 p-2 rounded"
+                        type="text"
+                        value={`${editUser.age}`}
+                        name="age"
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                    </td>
+                    <td className="text-left pr-5">
+                      <input
+                        className="bg-gray-300 p-2 rounded"
+                        type="text"
+                        value={`${editUser.eMail}`}
+                        name="eMail"
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </>
-          ) : (
+          ) : !userIsDeleted ? (
             <table>
               <tbody>
                 <tr>
@@ -139,9 +134,14 @@ const Modal = ({
                 </tr>
               </tbody>
             </table>
+          ) : (
+            <p>
+              {user.firstname} {user.lastname} wurde erfolgreich gelöscht.
+            </p>
           )}
 
           <div className="flex justify-around mt-auto">
+            {/* All three actions */}
             {!edit && !confirmDelete && (
               <>
                 <Button
@@ -165,6 +165,7 @@ const Modal = ({
               </>
             )}
 
+            {/* Visible when user is supossed to be updated */}
             {edit && (
               <>
                 <Button
@@ -185,7 +186,8 @@ const Modal = ({
               </>
             )}
 
-            {confirmDelete && (
+            {/* Visible when user is supossed to be deleted */}
+            {confirmDelete && !userIsDeleted && (
               <>
                 <Button
                   color="bg-red-500"
@@ -203,6 +205,14 @@ const Modal = ({
                   }}
                 />
               </>
+            )}
+            {confirmDelete && userIsDeleted && (
+              <Button
+                color="bg-gray-500"
+                hoverColor="bg-gray-600"
+                title="schließen"
+                clickFunction={() => closeModal()}
+              />
             )}
           </div>
         </div>

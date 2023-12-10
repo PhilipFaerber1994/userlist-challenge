@@ -37,6 +37,7 @@ const UserListPage = () => {
     updatedList[updatedIndex] = updatedUser;
 
     setUserList(updatedList);
+    setModalOpen(false);
   };
 
   const removeUserFromList = (userId: string) => {
