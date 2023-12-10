@@ -29,7 +29,7 @@ const Modal = ({
   });
 
   useEffect(() => {
-    console.log(user);
+    console.log("edit", edit + " | confirmDelete", confirmDelete);
   }, []);
 
   const changeToEditMode = () => {
@@ -140,13 +140,51 @@ const Modal = ({
               </tbody>
             </table>
           )}
+
           <div className="flex justify-around mt-auto">
-            <Button
-              color="bg-red-500"
-              hoverColor="bg-red-600"
-              title="löschen"
-              clickFunction={() => setConfirmDelete(true)}
-            />
+            {!edit && !confirmDelete && (
+              <>
+                <Button
+                  color="bg-red-500"
+                  hoverColor="bg-red-600"
+                  title="löschen"
+                  clickFunction={() => setConfirmDelete(true)}
+                />
+                <Button
+                  color="bg-amber-500"
+                  hoverColor="bg-amber-600"
+                  title="bearbeiten"
+                  clickFunction={() => changeToEditMode()}
+                />
+                <Button
+                  color="bg-gray-500"
+                  hoverColor="bg-gray-600"
+                  title="schließen"
+                  clickFunction={() => closeModal()}
+                />
+              </>
+            )}
+
+            {edit && (
+              <>
+                <Button
+                  color="bg-emerald-500"
+                  hoverColor="bg-emerald-600"
+                  title="speichern"
+                  clickFunction={() => updateUser(user._id)}
+                />
+                <Button
+                  color="bg-gray-500"
+                  hoverColor="bg-gray-600"
+                  title="abbrechen"
+                  clickFunction={() => {
+                    setConfirmDelete(false);
+                    setEdit(false);
+                  }}
+                />
+              </>
+            )}
+
             {confirmDelete && (
               <>
                 <Button
@@ -159,30 +197,13 @@ const Modal = ({
                   color="bg-gray-500"
                   hoverColor="bg-gray-600"
                   title="abbrechen"
-                  clickFunction={() => setConfirmDelete(false)}
+                  clickFunction={() => {
+                    setConfirmDelete(false);
+                    setEdit(false);
+                  }}
                 />
               </>
             )}
-            <Button
-              color="bg-amber-500"
-              hoverColor="bg-amber-600"
-              title="bearbeiten"
-              clickFunction={() => changeToEditMode()}
-            />
-            <div className="flex justify-around mt-auto">
-              <Button
-                color="bg-gray-500"
-                hoverColor="bg-gray-600"
-                title="schließen"
-                clickFunction={() => closeModal()}
-              />
-              <Button
-                color="bg-emerald-500"
-                hoverColor="bg-emerald-600"
-                title="speichern"
-                clickFunction={() => updateUser(user._id)}
-              />
-            </div>
           </div>
         </div>
       </div>
