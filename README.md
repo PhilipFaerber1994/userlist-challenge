@@ -67,4 +67,9 @@ Hier möchte ich ein paar Features auflisten, die bei einer weiteren Entwicklung
 - ```UserForm``` auch im Modal
   - Die ```UserForm```-Component könnte man auch im Modal zum bearbeiten oder löschen der Nutzer anwenden, da diese Component so erstellt werden sollte, dass sie flexibel anwendbar ist.
 - Extra Components für die Icons
-  - Um den Code in den Formularen übersichtlicher zu gestalten hätten auch eigene Icon Components erstellt und in die ```Button```-Components eingefügt werden können. 
+  - Um den Code in den Formularen übersichtlicher zu gestalten hätten auch eigene Icon Components erstellt und in die ```Button```-Components eingefügt werden können.
+- Sortierfunktion
+  - Denkbar wäre auch eine Sortierfunktion in der Tabelle, bei der man anhand verschiedener Kriterien die Tabelle sortieren oder filtern kann.
+- Responsive Layout
+  - Ein mobile Version wäre zudem denkbar. Aus Gründen der Übersichtlichkeit hätte hierfür vermutlich eine andere Lösung als die Tabelle zur Darstellung der Nutzer genutzt werden müssen. 
+
