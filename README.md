@@ -65,4 +65,6 @@ Hier möchte ich ein paar Features auflisten, die bei einer weiteren Entwicklung
 - Genauere Fehlermeldungen und http codes
   - Falls der User einer falschen URL auf die Seite folgt und diese Seite nicht existiert könnte der ```http-Code``` 404 nach vorne gesendet werden und eine zusätzliche Seite unter ```/pages``` angelegt werden, die bei einer Seite gerendert wird, die nicht existiert. Auf dieser zusätzlichen View befinden sich die Fehlerinformationen in Textform, dass der Nutzer der App weiß, wo der Fehler liegt.
 - ```UserForm``` auch im Modal
-  - Die ```UserForm```-Component könnte man auch im Modal zum bearbeiten oder löschen der Nutzer anwenden, da diese Component so erstellt werden sollte, dass sie flexibel anwendbar ist. 
+  - Die ```UserForm```-Component könnte man auch im Modal zum bearbeiten oder löschen der Nutzer anwenden, da diese Component so erstellt werden sollte, dass sie flexibel anwendbar ist.
+- Extra Components für die Icons
+  - Um den Code in den Formularen übersichtlicher zu gestalten hätten auch eigene Icon Components erstellt und in die ```Button```-Components eingefügt werden können. 
