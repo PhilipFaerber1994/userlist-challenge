@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+interface INavbar {
+  index: number;
+}
+
+const Navbar = ({ index }: INavbar) => {
   // Retrieve the activeLink value from localStorage or default to 0
-  const storedActiveLink = localStorage.getItem("activeLink");
-  const [activeLink, setActiveLink] = useState<Number>(
-    storedActiveLink ? parseInt(storedActiveLink, 10) : 0
-  );
 
   const links = [
     {
@@ -19,29 +19,13 @@ const Navbar = () => {
     },
   ];
 
-  const activateLink = (index: Number) => {
-    setActiveLink(index);
-
-    localStorage.setItem("activeLink", index.toString());
-  };
-
-  useEffect(() => {
-    // With returning the localStorage the position of the active link
-    // is on the same position it had bevore refreshing the browser
-    return () => {
-      localStorage.removeItem("activeLink");
-    };
-  }, []);
-
   return (
     <nav className="p-10 flex justify-end">
-      {links.map((link, index) => (
-        <Link key={index} to={link.to} onClick={() => activateLink(index)}>
+      {links.map((link, i) => (
+        <Link key={i} to={link.to}>
           <span
             className={`${
-              activeLink === index
-                ? "bg-emerald-500 text-white font-bold rounded"
-                : ""
+              i === index ? "bg-emerald-500 text-white font-bold rounded" : ""
             } p-4`}
           >
             {link.linkTitle}

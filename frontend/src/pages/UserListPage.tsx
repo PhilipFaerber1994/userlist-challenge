@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import { IUser } from "../UserInterface";
 import axios from "axios";
 import { API_ENUMS } from "../API_ENUMS";
+import Navbar from "../components/Navbar";
 
 const UserListPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -50,19 +51,22 @@ const UserListPage = () => {
   const closeModal = () => setModalOpen(false);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h1 className="text-2xl mt-10 mb-10 font-bold text-emerald-500">
-        Übersicht Benutzer
-      </h1>
-      <UserTable userList={userList} handleTableClick={handleTableClick} />
-      {modalOpen && (
-        <Modal
-          user={selectedUser as IUser}
-          closeModal={closeModal}
-          updateUserInList={updateUserInList}
-          removeUserFromList={removeUserFromList}
-        />
-      )}
+    <div>
+      <Navbar index={0} />
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-2xl mt-10 mb-10 font-bold text-emerald-500">
+          Übersicht Benutzer
+        </h1>
+        <UserTable userList={userList} handleTableClick={handleTableClick} />
+        {modalOpen && (
+          <Modal
+            user={selectedUser as IUser}
+            closeModal={closeModal}
+            updateUserInList={updateUserInList}
+            removeUserFromList={removeUserFromList}
+          />
+        )}
+      </div>
     </div>
   );
 };

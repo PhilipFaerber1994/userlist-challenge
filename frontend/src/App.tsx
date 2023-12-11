@@ -12,12 +12,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<UserListPage />} />
           <Route path="/create-user" element={<CreateUserPage />} />
         </Routes>
-        <Outlet />
+        {/* <Outlet /> */}
       </BrowserRouter>
     </div>
   );

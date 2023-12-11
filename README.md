@@ -49,3 +49,9 @@ Hier habe ich mich zur Darstellung der Nutzer für eine Tabelle entschieden, da 
 Meine erste Idee, wie ich die Nutzer bearbeiten könnte war über Spalten in der Tabelle, in denen sich ein Editir- und Löschknopf befinden könnte. Das hätte aber zur Folge gehabt, dass - bei Einfügen weiterer Spalten für neue Attribute - die Tabelle zu unübersichtlich werden würde. Ich entschied mich deshalb für ein Modal, dass sich über Anklicken der Spalten öffnen lässt. Damit deutlich wird, dass die Zeilen klickbar sind, habe ich einen Hover-Effekt eingefügt und den Curser geändert.
 
 ### Benutzer anlegen
+
+### weitere features
+
+mehrere Benutzer löschen
+weitere Attribute (Telefonnummer)
+Bilder in Tabelle, damit man weiß, mit welchem Benutzer man es zu tun hat.
