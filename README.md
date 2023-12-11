@@ -43,15 +43,18 @@ In der `.env` liegen wichtige Parameter, die eigentlich nicht auf Github liegen 
 
 Das Frontend unterfliedert sich in zwei Views (oder Pages). "Benutzerliste" und "Benutzer anlegen", die sich mithilfe einer Navbar besichtigen lassen.
 
-### Benutzerliste
+### Benutzerliste über ```UserListPage.tsx```
 
 Hier habe ich mich zur Darstellung der Nutzer für eine Tabelle entschieden, da so flexibel Attribute über neue Spalten hinzugefügt werden können.
 Meine erste Idee, wie ich die Nutzer bearbeiten könnte war über Spalten in der Tabelle, in denen sich ein Editir- und Löschknopf befinden könnte. Das hätte aber zur Folge gehabt, dass - bei Einfügen weiterer Spalten für neue Attribute - die Tabelle zu unübersichtlich werden würde. Ich entschied mich deshalb für ein Modal, dass sich über Anklicken der Spalten öffnen lässt. Damit deutlich wird, dass die Zeilen klickbar sind, habe ich einen Hover-Effekt eingefügt und den Curser geändert.
 
-### Benutzer anlegen
+### Benutzer anlegen über ```CreateUserPage.tsx```
+
+Mittels eines Formulares, welches über ```UserForm.tsx```in die Seite eingebunden wird, kann ein neuer Nutzer über einen ```POST-Request```angelegt werden. Hier findet eine Validierung statt. Um dies zu gewährleisten wurde der ```userFormik```-Hook aus der ```formik``` Bibliothek verwendet. ```yup```diente dazu, ein Validierungsschema zu erstellen, um zu gewährleisten, dass alle relevanten Bestandteile ins Backend gesendet werden können. Eine Backend seitige Validierung findet bei der Mail-Adresse statt. Diese sich darf nur einmal in der Datenbank befinden. 
 
 ### weitere features
 
-mehrere Benutzer löschen
-weitere Attribute (Telefonnummer)
-Bilder in Tabelle, damit man weiß, mit welchem Benutzer man es zu tun hat.
+- mehrere Benutzer löschen
+- weitere Attribute (Telefonnummer)
+- Bilder in Tabelle, damit man weiß, mit welchem Benutzer man es zu tun hat.
+- Genauere Fehlermeldungen und http codes ins Frontend reichen, damit ein User weiß, dass er beispielsweise den Fehler nicht verursacht hat oder einen falschen Link auf die Seite kommt und er einen 404 code erhält.
