@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 interface INavbar {
@@ -6,8 +5,6 @@ interface INavbar {
 }
 
 const Navbar = ({ index }: INavbar) => {
-  // Retrieve the activeLink value from localStorage or default to 0
-
   const links = [
     {
       to: "/",

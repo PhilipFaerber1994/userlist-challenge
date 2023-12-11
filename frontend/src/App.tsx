@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
+import { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserListPage from "./pages/UserListPage";
 import { CreateUserPage } from "./pages/CreateUserPage";
-import Navbar from "./components/Navbar";
 
 function App() {
   useEffect(() => {}, []);
@@ -12,12 +10,10 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<UserListPage />} />
           <Route path="/create-user" element={<CreateUserPage />} />
         </Routes>
-        {/* <Outlet /> */}
       </BrowserRouter>
     </div>
   );
